@@ -1,13 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useCurrentBalance, CurrentBalance } from '../components/balance';
 import { useStatusMessage, StatusMessage } from '../components/status-message';
 import useAccountManager from '../utils/account-manager';
 import parseError from '../utils/parse-error';
 import withSession from '../components/session-guard';
+import BackButton from '../components/back-button';
 
 function TransferPage() {
-    const navigate = useNavigate();
     const [amount, setAmount] = useState<number>(0);
     const [cardNumber, setCardNumber] = useState<string>('');
     const messageHandle = useStatusMessage();
@@ -46,10 +45,6 @@ function TransferPage() {
         setCardNumber(event.target.value);
     };
 
-    const handleBack = () => {
-        navigate(-1);
-    };
-
     return (
         <div>
             <h1>Transfer</h1>
@@ -58,7 +53,7 @@ function TransferPage() {
             <input type="text" value={cardNumber} onChange={handleCardNumberChange} placeholder="Card Number" />
             <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
             <button onClick={handleTransfer}>Submit</button>
-            <button onClick={handleBack}>Back</button>
+            <BackButton />
         </div>
     );
 }

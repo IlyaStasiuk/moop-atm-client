@@ -1,5 +1,5 @@
 import useSession from "../context/session-context";
-import RequestManager, { BalanceResponse } from "./request-manager";
+import RequestManager, { BalanceResponse } from "./request-manager/request-manager";
 
 class AccountManager {
     private sessionKey: string;

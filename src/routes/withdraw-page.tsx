@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import withSession from '../components/session-guard';
-import { useNavigate } from 'react-router-dom';
 import useAccountManager from '../utils/account-manager';
 import parseError from '../utils/parse-error';
 import { StatusMessage, useStatusMessage } from '../components/status-message';
 import { CurrentBalance, useCurrentBalance } from '../components/balance';
+import BackButton from '../components/back-button';
 
 function WithdrawPage() {
-    const navigate = useNavigate();
     const [amount, setAmount] = useState<number>(0);
     const messageHandle = useStatusMessage();
     const balanceHandle = useCurrentBalance(messageHandle.setError);
@@ -37,10 +36,6 @@ function WithdrawPage() {
         if (!isNaN(newAmount) && newAmount >= 0) setAmount(newAmount);
     };
 
-    const handleBack = () => {
-        navigate(-1);
-    };
-
     return (
         <div>
             <h1>Withdraw</h1>
@@ -48,7 +43,7 @@ function WithdrawPage() {
             <StatusMessage handle={messageHandle} />
             <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
             <button onClick={handleWithdraw}>Submit</button>
-            <button onClick={handleBack}>Back</button>
+            <BackButton />
         </div>
     );
 }

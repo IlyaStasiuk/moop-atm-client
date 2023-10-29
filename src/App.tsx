@@ -6,7 +6,7 @@ import BalancePage from './routes/balance-page';
 import PutPage from './routes/put-page';
 import WithdrawPage from './routes/withdraw-page';
 import TransferPage from './routes/transfer-page';
-import PinPage from './routes/pin-page';
+import ChangePinPage from './routes/change-pin-page';
 import AuthPage from './routes/auth-page';
 import IndexPage from './routes/index-page';
 
@@ -20,7 +20,7 @@ function App() {
             <Route path="/put" element={<PutPage />} />
             <Route path="/withdraw" element={<WithdrawPage />} />
             <Route path="/transfer" element={<TransferPage />} />
-            <Route path="/pin" element={<PinPage />} />
+            <Route path="/pin" element={<ChangePinPage />} />
         </Routes>
 
     );
