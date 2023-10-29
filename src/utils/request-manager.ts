@@ -1,12 +1,14 @@
-interface AuthResponse {
+import sleep from "./sleep";
+
+export interface AuthResponse {
     sessionKey: string;
 }
 
-interface ErrorResponse {
+export interface ErrorResponse {
     message: string;
 }
 
-interface BalanceResponse {
+export interface BalanceResponse {
     balance: number;
 }
 
@@ -34,19 +36,21 @@ class RequestManager {
         //     data: { accountNumber, pin },
         // });
 
-        return {
-            sessionKey: "1"
-        } as AuthResponse;
+        await sleep(1);
+        return { sessionKey: "1" };
     }
 
     static async deauth(sessionKey: string): Promise<void> {
         // return this.post<void>('deauth', { sessionKey });
 
-        
+        await sleep(1);
     }
 
     static async getBalance(sessionKey: string): Promise<BalanceResponse> {
-        return this.post<BalanceResponse>('balance', { sessionKey });
+        // return this.post<BalanceResponse>('balance', { sessionKey });
+
+        await sleep(1);
+        return { balance: 100123 };
     }
 
     static async transfer(sessionKey: string, to: string, amount: number): Promise<void> {
@@ -75,14 +79,6 @@ class RequestManager {
             sessionKey,
             data: { pin },
         });
-    }
-
-    static parseError(error: any) {
-        if (error instanceof Error) {
-            return error.message;
-        } else {
-            return 'An unexpected error occurred. Please try again later.';
-        }
     }
 }
 

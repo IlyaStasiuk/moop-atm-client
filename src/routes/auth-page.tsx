@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import RequestManager from '../utils/request-manager';
 import { useAuth } from '../utils/auth';
+import parseError from '../utils/parse-error';
 
 function AuthPage() {
     const [accountNumber, setAccountNumber] = useState('');
@@ -17,7 +17,7 @@ function AuthPage() {
         try {
             await auth(accountNumber, pin);
         } catch (error) {
-            setError(RequestManager.parseError(error));
+            setError(parseError(error));
         } finally {
             setLoading(false);
         }
