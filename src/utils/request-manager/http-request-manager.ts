@@ -1,69 +1,81 @@
 import { AuthResponse, BalanceResponse, ErrorResponse } from "./request-manager";
 
-const SERVER_URL = "http://localhost:5000/";
+const SERVER_URL = "http://localhost:3000/";
 const DEFAULT_ERROR = 'An error occurred. Please try again later.';
+const ATM_ID = "284c0a73-768e-11ee-96ad-0242ac120003"
+
+export class ValidationError extends Error { }
 
 class HTTPRequestManager {
-    static async post<T>(url: string, body: object): Promise<T> {
-        try {
-            let response = await fetch(SERVER_URL + url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(body),
-            });
+    static async fetch(url: string, body: object) {
+        return await fetch(SERVER_URL + url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+    }
 
-            if (!response.ok) {
-                const errorData: ErrorResponse = await response.json();
-                throw new Error(errorData.message || DEFAULT_ERROR);
-            }
+    static async postGet<T>(url: string, body: object): Promise<T> {
+        let response = await fetch(url, body);
+        if (!response.ok) {
+            const errorData: ErrorResponse = await response.json();
+            throw new ValidationError(errorData.message || DEFAULT_ERROR);
+        }
+        return response.json() as Promise<T>;
+    }
 
-            return response.json() as Promise<T>;
-        } catch (error) {
-            throw new Error(DEFAULT_ERROR);
+    static async post(url: string, body: object) {
+        let response = await fetch(url, body);
+        if (!response.ok) {
+            const errorData: ErrorResponse = await response.json();
+            throw new ValidationError(errorData.message || DEFAULT_ERROR);
         }
     }
 
     static async auth(accountNumber: string, pin: string): Promise<AuthResponse> {
-        return this.post<AuthResponse>('auth', {
-            data: { accountNumber, pin },
+        return this.postGet<AuthResponse>('auth', {
+            idATM: ATM_ID,
+            accountNumber,
+            pin,
         });
     }
 
-    static async deauth(sessionKey: string): Promise<void> {
-        return this.post<void>('deauth', { sessionKey });
+    static async deauth(sessionKey: string) {
+        return this.post('deauth', { sessionKey });
     }
 
     static async getBalance(sessionKey: string): Promise<BalanceResponse> {
-        return this.post<BalanceResponse>('balance', { sessionKey });
+        return this.postGet<BalanceResponse>('balance', { sessionKey });
     }
 
-    static async transfer(sessionKey: string, to: string, amount: number): Promise<void> {
-        return this.post<void>('operation/transfer', {
+    static async transfer(sessionKey: string, to: string, amount: number) {
+        return this.post('operation/transfer', {
             sessionKey,
-            data: { to, amount },
+            to,
+            amount,
         });
     }
 
-    static async withdraw(sessionKey: string, amount: number): Promise<void> {
-        return this.post<void>('operation/withdraw', {
+    static async withdraw(sessionKey: string, amount: number) {
+        return this.post('operation/withdraw', {
             sessionKey,
-            data: { amount },
+            amount,
         });
     }
 
-    static async put(sessionKey: string, amount: number): Promise<void> {
-        return this.post<void>('operation/put', {
+    static async put(sessionKey: string, amount: number) {
+        return this.post('operation/put', {
             sessionKey,
-            data: { amount },
+            amount,
         });
     }
 
-    static async changePin(sessionKey: string, pin: string): Promise<void> {
-        return this.post<void>('change-pin', {
+    static async changePin(sessionKey: string, pin: string) {
+        return this.post('change-pin', {
             sessionKey,
-            data: { pin },
+            pin,
         });
     }
 }
