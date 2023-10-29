@@ -1,5 +1,3 @@
-import React from 'react';
-import './App.css';
 import HomePage from './routes/home-page';
 import { Routes, Route } from 'react-router-dom';
 import BalancePage from './routes/balance-page';
