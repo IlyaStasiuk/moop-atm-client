@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useSession from '../context/session-context';
 import { useDeauth } from '../utils/auth';
+import withSession from '../components/session-guard';
 
 function HomePage() {
     const deauth = useDeauth();
@@ -40,4 +41,4 @@ function HomePage() {
     );
 }
 
-export default HomePage;
+export default withSession(HomePage);

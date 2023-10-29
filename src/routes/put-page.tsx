@@ -1,4 +1,5 @@
 import React from 'react';
+import withSession from '../components/session-guard';
 
 function PutPage() {
     return (
@@ -8,4 +9,4 @@ function PutPage() {
     );
 }
 
-export default PutPage;
+export default withSession(PutPage);

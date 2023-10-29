@@ -1,4 +1,5 @@
 import React from 'react';
+import withSession from '../components/session-guard';
 
 function WithdrawPage() {
     return (
@@ -8,4 +9,4 @@ function WithdrawPage() {
     );
 }
 
-export default WithdrawPage;
+export default withSession(WithdrawPage);

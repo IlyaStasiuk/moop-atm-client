@@ -1,4 +1,5 @@
 import React from 'react';
+import withSession from '../components/session-guard';
 
 function TransferPage() {
     return (
@@ -8,4 +9,4 @@ function TransferPage() {
     );
 }
 
-export default TransferPage;
+export default withSession(TransferPage);

@@ -1,4 +1,5 @@
 import React from 'react';
+import withSession from '../components/session-guard';
 
 function BalancePage() {
     return (
@@ -8,4 +9,4 @@ function BalancePage() {
     );
 }
 
-export default BalancePage;
+export default withSession(BalancePage);

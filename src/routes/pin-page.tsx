@@ -1,4 +1,5 @@
 import React from 'react';
+import withSession from '../components/session-guard';
 
 function PinPage() {
     return (
@@ -8,4 +9,4 @@ function PinPage() {
     );
 }
 
-export default PinPage;
+export default withSession(PinPage);
