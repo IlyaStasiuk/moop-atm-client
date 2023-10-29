@@ -4,7 +4,7 @@ function parseError(error: any) {
     if (error instanceof ValidationError) {
         return error.message;
     } else {
-        return `An unexpected error occurred. Please try again later.\n${error}`;
+        return `An unexpected error occurred. Please try again later. DEV: ${error}`;
     }
 }
 

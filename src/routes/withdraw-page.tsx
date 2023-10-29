@@ -15,16 +15,16 @@ function WithdrawPage() {
     const handleWithdraw = useCallback(async () => {
         try {
             if (isNaN(amount) || amount <= 0) {
-                messageHandle.setError('Please enter a valid amount');
+                messageHandle.setError('Будь ласка, введіть валідне значення');
                 return;
             }
             if (balanceHandle.balance == null || amount > balanceHandle.balance) {
-                messageHandle.setError('Insufficient balance');
+                messageHandle.setError('Недостатньо коштів');
                 return;
             }
 
             await accountManager.withdraw(amount);
-            messageHandle.setSuccess('Money successfully withdrawn');
+            messageHandle.setSuccess('Гроші успішно знято');
             balanceHandle.refreshBalance();
         } catch (error) {
             messageHandle.setError(parseError(error));

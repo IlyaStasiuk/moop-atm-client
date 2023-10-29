@@ -7,7 +7,7 @@ const ATM_ID = "284c0a73-768e-11ee-96ad-0242ac120003"
 export class ValidationError extends Error { }
 
 class HTTPRequestManager {
-    static async fetch(url: string, body: object) {
+    static async fetchRequest(url: string, body: object) {
         return await fetch(SERVER_URL + url, {
             method: 'POST',
             headers: {
@@ -18,7 +18,7 @@ class HTTPRequestManager {
     }
 
     static async postGet<T>(url: string, body: object): Promise<T> {
-        let response = await fetch(url, body);
+        let response = await this.fetchRequest(url, body);
         if (!response.ok) {
             const errorData: ErrorResponse = await response.json();
             throw new ValidationError(errorData.message || DEFAULT_ERROR);
@@ -27,7 +27,7 @@ class HTTPRequestManager {
     }
 
     static async post(url: string, body: object) {
-        let response = await fetch(url, body);
+        let response = await this.fetchRequest(url, body);
         if (!response.ok) {
             const errorData: ErrorResponse = await response.json();
             throw new ValidationError(errorData.message || DEFAULT_ERROR);

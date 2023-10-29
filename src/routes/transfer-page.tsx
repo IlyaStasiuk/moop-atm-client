@@ -16,20 +16,20 @@ function TransferPage() {
     const handleTransfer = useCallback(async () => {
         try {
             if (isNaN(amount) || amount <= 0) {
-                messageHandle.setError('Please enter a valid amount');
+                messageHandle.setError('Будь ласка, введіть валідне значення');
                 return;
             }
             if (!cardNumber) {
-                messageHandle.setError('Please enter a card number');
+                messageHandle.setError('Будь ласка, введіть валідний номер рахунку');
                 return;
             }
             if (balanceHandle.balance == null || amount > balanceHandle.balance) {
-                messageHandle.setError('Insufficient balance');
+                messageHandle.setError('Недостатньо коштів');
                 return;
             }
 
             await accountManager.transfer(cardNumber, amount);
-            messageHandle.setSuccess('Money successfully transferred');
+            messageHandle.setSuccess('Гроші успішно надіслано');
             balanceHandle.refreshBalance();
         } catch (error) {
             messageHandle.setError(parseError(error));

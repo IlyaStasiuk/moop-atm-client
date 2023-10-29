@@ -14,11 +14,11 @@ function ChangePinPage() {
     const handleChangePin = useCallback(async () => {
         try {
             if (!newPin) {
-                messageHandle.setError('Please enter a new PIN');
+                messageHandle.setError('ВВедіть новий PIN');
                 return;
             }
             await accountManager.changePin(newPin);
-            messageHandle.setSuccess('PIN successfully changed');
+            messageHandle.setSuccess('PIN успішно змінено');
         } catch (error) {
             messageHandle.setError(parseError(error));
         }

@@ -15,11 +15,11 @@ function PutPage() {
     const handlePut = useCallback(async () => {
         try {
             if (isNaN(amount) || amount <= 0) {
-                messageHandle.setError('Please enter a valid amount');
+                messageHandle.setError('Будь ласка, введіть валідне значення');
                 return;
             }
             await accountManager.put(amount);
-            messageHandle.setSuccess('Money successfully added');
+            messageHandle.setSuccess('Гроші успішно покладено');
             balanceHandle.refreshBalance();
         } catch (error) {
             messageHandle.setError(parseError(error));
