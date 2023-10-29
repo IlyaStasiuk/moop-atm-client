@@ -20,8 +20,8 @@ class AccountManager {
         return RequestManager.withdraw(this.sessionKey, amount);
     }
 
-    async deposit(amount: number): Promise<void> {
-        return RequestManager.deposit(this.sessionKey, amount);
+    async put(amount: number): Promise<void> {
+        return RequestManager.put(this.sessionKey, amount);
     }
 
     async changePin(pin: string): Promise<void> {

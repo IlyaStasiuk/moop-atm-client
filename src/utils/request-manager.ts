@@ -67,11 +67,13 @@ class RequestManager {
         });
     }
 
-    static async deposit(sessionKey: string, amount: number): Promise<void> {
-        return this.post<void>('operation/put', {
-            sessionKey,
-            data: { amount },
-        });
+    static async put(sessionKey: string, amount: number): Promise<void> {
+        // return this.post<void>('operation/put', {
+        //     sessionKey,
+        //     data: { amount },
+        // });
+
+        await sleep(1);
     }
 
     static async changePin(sessionKey: string, pin: string): Promise<void> {
