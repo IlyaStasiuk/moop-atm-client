@@ -3,33 +3,33 @@ import withSession from '../components/session-guard';
 import useAccountManager from '../utils/account-manager';
 import { useNavigate } from 'react-router-dom';
 import parseError from '../utils/parse-error';
+import { StatusMessage, useStatusMessage } from '../components/status-message';
+import { CurrentBalance, useCurrentBalance } from '../components/balance';
 
 function PutPage() {
-    const [amount, setAmount] = useState<number>(0);
-    const [message, setMessage] = useState<string | null>(null);
-    const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const [amount, setAmount] = useState<number>(0);
     const accountManager = useAccountManager();
+    const messageHandle = useStatusMessage();
+    const balanceHandle = useCurrentBalance(messageHandle.setError);
 
     const handlePut = useCallback(async () => {
         try {
             if (isNaN(amount) || amount <= 0) {
-                setError('Please enter a valid amount');
+                messageHandle.setError('Please enter a valid amount');
                 return;
             }
             await accountManager.put(amount);
-            setMessage('Money successfully added');
-            setError(null);
+            messageHandle.setSuccess('Money successfully added');
+            balanceHandle.refreshBalance();
         } catch (error) {
-            setError(parseError(error));
-            setMessage(null);
+            messageHandle.setError(parseError(error));
         }
     }, [amount, accountManager]);
 
     const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let newAmount = parseFloat(event.target.value);
-        if (amount < 0) newAmount = NaN;
-        setAmount(newAmount);
+        if (!isNaN(newAmount) && newAmount >= 0) setAmount(newAmount);
     };
 
     const handleBack = () => {
@@ -39,8 +39,8 @@ function PutPage() {
     return (
         <div>
             <h1>PutPage</h1>
-            {message && <p style={{ color: 'green' }}>{message}</p>}
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            <CurrentBalance handle={balanceHandle} />
+            <StatusMessage handle={messageHandle} />
             <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
             <button onClick={handlePut}>Submit</button>
             <button onClick={handleBack}>Back</button>

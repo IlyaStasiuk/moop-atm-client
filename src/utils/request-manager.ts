@@ -13,6 +13,7 @@ export interface BalanceResponse {
 }
 
 const SERVER_URL = "http://localhost:5000/";
+let testBalance = 100123;
 
 class RequestManager {
     static async post<T>(url: string, body: object): Promise<T> {
@@ -50,21 +51,29 @@ class RequestManager {
         // return this.post<BalanceResponse>('balance', { sessionKey });
 
         await sleep(1);
-        return { balance: 100123 };
+        return { balance: testBalance };
     }
 
     static async transfer(sessionKey: string, to: string, amount: number): Promise<void> {
-        return this.post<void>('operation/transfer', {
-            sessionKey,
-            data: { to, amount },
-        });
+        // return this.post<void>('operation/transfer', {
+        //     sessionKey,
+        //     data: { to, amount },
+        // });
+
+        await sleep(1);
+        if (to.length > 4) throw new Error('Account does not exist');
+
+        testBalance -= amount;
     }
 
     static async withdraw(sessionKey: string, amount: number): Promise<void> {
-        return this.post<void>('operation/withdraw', {
-            sessionKey,
-            data: { amount },
-        });
+        // return this.post<void>('operation/withdraw', {
+        //     sessionKey,
+        //     data: { amount },
+        // });
+
+        testBalance -= amount;
+        await sleep(1);
     }
 
     static async put(sessionKey: string, amount: number): Promise<void> {
@@ -73,6 +82,7 @@ class RequestManager {
         //     data: { amount },
         // });
 
+        testBalance += amount;
         await sleep(1);
     }
 
