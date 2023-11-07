@@ -1,14 +1,14 @@
+import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function BackButton() {
     const navigate = useNavigate();
 
-    const handleBack = () => {
-        navigate(-1);
-    };
-
     return (
-        <button onClick={handleBack}>Back</button>
+        // <button onClick={handleBack}>Back</button>\
+        <Button variant="secondary" onClick={() => navigate(-1)}>
+            Back
+        </Button>
     )
 }
 

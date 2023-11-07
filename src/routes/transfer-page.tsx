@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { useCurrentBalance, CurrentBalance } from '../components/balance';
 import { useStatusMessage, StatusMessage } from '../components/status-message';
-import useAccountManager from '../utils/account-manager';
-import parseError from '../utils/parse-error';
+import useAccountManager from '../utils/requests/account-manager';
+import parseError from '../utils/requests/parse-error';
 import withSession from '../components/session-guard';
 import BackButton from '../components/back-button';
+import { Stack, InputGroup, Button, FormControl, Form } from 'react-bootstrap';
+import AtmPageContainer from '../components/atm-page-container';
 
 function TransferPage() {
     const [amount, setAmount] = useState<number>(0);
@@ -46,15 +48,35 @@ function TransferPage() {
     };
 
     return (
-        <div>
-            <h1>Transfer</h1>
-            <CurrentBalance handle={balanceHandle} />
+        <AtmPageContainer navbar header="Transfer">
             <StatusMessage handle={messageHandle} />
-            <input type="text" value={cardNumber} onChange={handleCardNumberChange} placeholder="Card Number" />
-            <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
-            <button onClick={handleTransfer}>Submit</button>
-            <BackButton />
-        </div>
+            <CurrentBalance handle={balanceHandle} />
+            <Stack gap={2} className="col-md-5 mx-auto">
+                <Form>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="text"
+                            value={cardNumber}
+                            onChange={handleCardNumberChange}
+                            placeholder="Card Number"
+                            aria-label="Card Number"
+                        />
+                    </InputGroup>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>UAH</InputGroup.Text>
+                        <FormControl
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            placeholder="Enter amount"
+                            aria-label="Amount"
+                        />
+                    </InputGroup>
+                </Form>
+                <Button variant="primary" onClick={handleTransfer}>Submit</Button>
+                <BackButton />
+            </Stack>
+        </AtmPageContainer >
     );
 }
 

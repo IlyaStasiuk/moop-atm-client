@@ -1,10 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import withSession from '../components/session-guard';
-import useAccountManager from '../utils/account-manager';
-import parseError from '../utils/parse-error';
+import useAccountManager from '../utils/requests/account-manager';
+import parseError from '../utils/requests/parse-error';
 import { StatusMessage, useStatusMessage } from '../components/status-message';
 import { CurrentBalance, useCurrentBalance } from '../components/balance';
 import BackButton from '../components/back-button';
+import { Stack, InputGroup, Button, Form } from 'react-bootstrap';
+import AtmPageContainer from '../components/atm-page-container';
 
 function WithdrawPage() {
     const [amount, setAmount] = useState<number>(0);
@@ -37,14 +39,25 @@ function WithdrawPage() {
     };
 
     return (
-        <div>
-            <h1>Withdraw</h1>
-            <CurrentBalance handle={balanceHandle} />
+        <AtmPageContainer navbar header="Withdraw">
             <StatusMessage handle={messageHandle} />
-            <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
-            <button onClick={handleWithdraw}>Submit</button>
-            <BackButton />
-        </div>
+            <CurrentBalance handle={balanceHandle} />
+            <Stack gap={2} className="col-md-5 mx-auto">
+                <Form>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>UAH</InputGroup.Text>
+                        <Form.Control
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            placeholder="Enter amount"
+                        />
+                        <Button variant="primary" onClick={handleWithdraw}>Submit</Button>
+                    </InputGroup>
+                </Form>
+                <BackButton />
+            </Stack>
+        </AtmPageContainer >
     );
 }
 

@@ -1,43 +1,38 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useSession from '../context/session-context';
-import { useDeauth } from '../utils/auth';
+import { useDeauth } from '../utils/requests/auth';
 import withSession from '../components/session-guard';
+
+import { Button, Stack } from 'react-bootstrap';
+import AtmPageContainer from '../components/atm-page-container';
 
 function HomePage() {
     const deauth = useDeauth();
     const navigate = useNavigate();
 
-    const navigateToBalance = () => {
-        navigate('/balance');
-    };
-
-    const navigateToPut = () => {
-        navigate('/put');
-    };
-
-    const navigateToWithdraw = () => {
-        navigate('/withdraw');
-    };
-
-    const navigateToTransfer = () => {
-        navigate('/transfer');
-    };
-
-    const navigateToPin = () => {
-        navigate('/pin');
-    };
-
     return (
-        <div>
-            <h1>Menu</h1>
-            <button onClick={navigateToBalance}>Check Balance</button>
-            <button onClick={navigateToPut}>Put Money</button>
-            <button onClick={navigateToWithdraw}>Withdraw Money</button>
-            <button onClick={navigateToTransfer}>Transfer Money</button>
-            <button onClick={navigateToPin}>Change Pin</button>
-            <button onClick={deauth}>Exit</button>
-        </div>
+        < AtmPageContainer navbar header="Menu" >
+            <Stack gap={2} className="col-md-5 mx-auto">
+                <Button variant="primary" onClick={() => navigate('/balance')} >
+                    Check Balance
+                </Button>
+                <Button variant="primary" onClick={() => navigate('/put')} >
+                    Deposit Money
+                </Button>
+                <Button variant="primary" onClick={() => navigate('/withdraw')} >
+                    Withdraw Money
+                </Button>
+                <Button variant="primary" onClick={() => navigate('/transfer')} >
+                    Transfer Money
+                </Button>
+                <Button variant="primary" onClick={() => navigate('/pin')} >
+                    Change Pin
+                </Button>
+                <Button variant="secondary" onClick={deauth} >
+                    Log Out
+                </Button>
+            </Stack>
+        </AtmPageContainer>
     );
 }
 

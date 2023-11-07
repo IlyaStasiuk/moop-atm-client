@@ -1,4 +1,4 @@
-import useSession from "../context/session-context";
+import useSession from "../../context/session-context";
 import RequestManager from "./request-manager/request-manager";
 import { useNavigate } from 'react-router-dom';
 

@@ -1,58 +1,58 @@
 import React, { useState } from 'react';
-import { useAuth } from '../utils/auth';
-import parseError from '../utils/parse-error';
+import { useAuth } from '../utils/requests/auth';
+import parseError from '../utils/requests/parse-error';
+import { Button, Container, Form, FormControl, FormGroup, FormLabel, InputGroup, Stack } from 'react-bootstrap';
+import AtmPageContainer from '../components/atm-page-container';
+import { StatusMessage, useStatusMessage } from '../components/status-message';
 
 function AuthPage() {
     const [accountNumber, setAccountNumber] = useState('');
     const [pin, setPin] = useState('');
-    const [error, setError] = useState('');
+    const messageHandle = useStatusMessage();
     const [loading, setLoading] = useState(false);
     const auth = useAuth();
 
     const handleSubmit = async (event: any) => {
         event.preventDefault();
         setLoading(true);
-        setError('');
+        messageHandle.clearMessage();
 
         try {
             await auth(accountNumber, pin);
         } catch (error) {
-            setError(parseError(error));
+            messageHandle.setError(parseError(error));
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div>
-            <h1>AuthPage</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Account Number:
-                    <input
+        <AtmPageContainer header="Log In">
+            <StatusMessage handle={messageHandle} />
+            <Form onSubmit={handleSubmit}>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>Account Number</InputGroup.Text>
+                    <FormControl
                         type="text"
                         value={accountNumber}
                         onChange={(e) => setAccountNumber(e.target.value)}
                         required
                     />
-                </label>
-                <br />
-                <label>
-                    PIN:
-                    <input
+                </InputGroup>
+                <InputGroup className="mb-3">
+                    <InputGroup.Text>PIN</InputGroup.Text>
+                    <FormControl
                         type="password"
                         value={pin}
                         onChange={(e) => setPin(e.target.value)}
                         required
                     />
-                </label>
-                <br />
-                <button type="submit" disabled={loading}>
-                    {loading ? 'Loading...' : 'Submit'}
-                </button>
-                {error && <div style={{ color: 'red' }}>{error}</div>}
-            </form>
-        </div>
+                </InputGroup>
+                <Stack gap={2} className="col-md-5 mx-auto">
+                    <Button variant="primary" type="submit" disabled={loading}>{loading ? 'Loading...' : 'Submit'}</Button>
+                </Stack>
+            </Form>
+        </AtmPageContainer>
     );
 }
 

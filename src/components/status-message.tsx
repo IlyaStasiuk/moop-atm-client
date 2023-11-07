@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Alert } from 'react-bootstrap';
 
-type StatusMessageType = 'error' | 'sucess' | 'info';
+type StatusMessageType = 'error' | 'success' | 'info';
 
 interface StatusMessageHandle {
     text: string;
@@ -22,11 +23,16 @@ export const StatusMessage: React.FC<StatusMessageProps> = (props) => {
 
     if (!text) return null;
 
-    const styles = {
-        color: type === 'error' ? 'red' : (type === 'sucess' ? 'green' : 'black'),
-    };
+    let variant = 'secondary';
+    if (type === 'error') {
+        variant = 'danger';
+    } else if (type === 'success') {
+        variant = 'success';
+    }
 
-    return <p style={styles}>{text}</p>;
+    return (
+        <Alert variant={variant}>{text}</Alert>
+    );
 };
 
 export function useStatusMessage(): StatusMessageHandle {
@@ -43,7 +49,7 @@ export function useStatusMessage(): StatusMessageHandle {
         type: type0,
         setMessage: setMessage,
         clearMessage: () => setMessage("", 'info'),
-        setSuccess: (text: string) => setMessage(text, 'sucess'),
+        setSuccess: (text: string) => setMessage(text, 'success'),
         setError: (text: string) => setMessage(text, 'error'),
         setInfo: (text: string) => setMessage(text, 'info'),
     }

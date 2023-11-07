@@ -1,4 +1,4 @@
-import sleep from "../sleep";
+import sleep from "../../sleep";
 import { AuthResponse, BalanceResponse } from "./request-manager";
 
 let TEST = {

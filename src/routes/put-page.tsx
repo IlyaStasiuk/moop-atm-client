@@ -1,10 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import withSession from '../components/session-guard';
-import useAccountManager from '../utils/account-manager';
-import parseError from '../utils/parse-error';
+import useAccountManager from '../utils/requests/account-manager';
+import parseError from '../utils/requests/parse-error';
 import { StatusMessage, useStatusMessage } from '../components/status-message';
 import { CurrentBalance, useCurrentBalance } from '../components/balance';
 import BackButton from '../components/back-button';
+import AtmPageContainer from '../components/atm-page-container';
+import { Button, Form, InputGroup, Stack } from 'react-bootstrap';
 
 function PutPage() {
     const [amount, setAmount] = useState<number>(0);
@@ -32,14 +34,25 @@ function PutPage() {
     };
 
     return (
-        <div>
-            <h1>PutPage</h1>
-            <CurrentBalance handle={balanceHandle} />
+        <AtmPageContainer navbar header="Deposit">
             <StatusMessage handle={messageHandle} />
-            <input type="number" value={amount} onChange={handleAmountChange} placeholder="UAH" />
-            <button onClick={handlePut}>Submit</button>
-            <BackButton />
-        </div>
+            <CurrentBalance handle={balanceHandle} />
+            <Stack gap={2} className="col-md-5 mx-auto">
+                <Form>
+                    <InputGroup className="mb-3">
+                        <InputGroup.Text>UAH</InputGroup.Text>
+                        <Form.Control
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            placeholder="Enter amount"
+                        />
+                    </InputGroup>
+                </Form>
+                <Button variant="primary" onClick={handlePut}>Submit</Button>
+                <BackButton />
+            </Stack>
+        </AtmPageContainer >
     );
 }
 

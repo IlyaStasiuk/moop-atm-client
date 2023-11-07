@@ -1,14 +1,15 @@
 import React from 'react';
+import { Button, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import AtmPageContainer from '../components/atm-page-container';
 
 function IndexPage() {
     const navigate = useNavigate();
 
     return (
-        <div>
-            <h1>Welcome</h1>
-            <button onClick={() => navigate('/auth')}>Start</button>
-        </div>
+        <AtmPageContainer header="Welcome to ATM">
+            <Button variant="primary" size="lg" onClick={() => navigate('/auth')}>Start</Button>
+        </AtmPageContainer>
     );
 }
 

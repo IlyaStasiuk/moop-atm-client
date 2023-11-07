@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from 'react';
 import withSession from '../components/session-guard';
-import { useNavigate } from 'react-router-dom';
 import { useStatusMessage, StatusMessage } from '../components/status-message';
-import useAccountManager from '../utils/account-manager';
-import parseError from '../utils/parse-error';
+import useAccountManager from '../utils/requests/account-manager';
+import parseError from '../utils/requests/parse-error';
 import BackButton from '../components/back-button';
+import { Stack, Button, Form, FormControl, InputGroup } from 'react-bootstrap';
+import AtmPageContainer from '../components/atm-page-container';
 
 function ChangePinPage() {
     const [newPin, setNewPin] = useState<string>('');
@@ -14,7 +15,7 @@ function ChangePinPage() {
     const handleChangePin = useCallback(async () => {
         try {
             if (!newPin) {
-                messageHandle.setError('ВВедіть новий PIN');
+                messageHandle.setError('Введіть новий PIN');
                 return;
             }
             await accountManager.changePin(newPin);
@@ -25,13 +26,24 @@ function ChangePinPage() {
     }, [newPin, accountManager, messageHandle]);
 
     return (
-        <div>
-            <h1>Change PIN</h1>
+        <AtmPageContainer navbar header="Change PIN">
             <StatusMessage handle={messageHandle} />
-            <input type="password" value={newPin} onChange={(e) => setNewPin(e.target.value)} placeholder="New PIN" />
-            <button onClick={handleChangePin}>Submit</button>
-            <BackButton />
-        </div>
+            <Stack gap={2} className="col-md-5 mx-auto">
+                <Form>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                            type="password"
+                            value={newPin}
+                            onChange={(e) => setNewPin(e.target.value)}
+                            placeholder="New PIN"
+                            aria-label="New PIN"
+                        />
+                    </InputGroup>
+                </Form>
+                <Button variant="primary" onClick={handleChangePin}>Submit</Button>
+                <BackButton />
+            </Stack>
+        </AtmPageContainer>
     );
 }
 
