@@ -13,9 +13,17 @@ interface CurrentBalanceProps {
 }
 
 export const CurrentBalance: React.FC<CurrentBalanceProps> = (props) => {
+    useEffect(() => {
+        const interval = setInterval(() => {
+            props.handle.refreshBalance();
+        }, 10000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+
     const balanceValue = props.handle.balance ?? "...";
     return (
-        // <p className="lead">Current balance: UAH {props.handle.balance ?? "..."}</p>
         <h3>
             Your balance: <Badge bg="success">UAH {balanceValue}</Badge>
         </h3>

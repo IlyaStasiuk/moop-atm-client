@@ -13,7 +13,7 @@ export interface BalanceResponse {
     balance: number;
 }
 
-class RequestManager extends HTTPRequestManager { }
-// class RequestManager extends TestRequestManager { }
+// class RequestManager extends HTTPRequestManager { }
+class RequestManager extends TestRequestManager { }
 
 export default RequestManager;
